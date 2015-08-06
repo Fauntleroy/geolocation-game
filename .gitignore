@@ -28,3 +28,6 @@ node_modules
 
 # Generated files
 dist
+
+# jekyll
+_site
