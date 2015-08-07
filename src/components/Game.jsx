@@ -47,6 +47,7 @@ var Game = React.createClass({
                 index={index}
                 selected={index === selected_index}
                 closest={index === closest_index}
+                key={location.uuid}
             />;
         });
         return (

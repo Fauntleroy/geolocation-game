@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import { assign, sample, sortBy } from 'lodash';
+import uuid from 'node-uuid';
 
 import constants from '../constants/constants.js';
 import dispatcher from '../dispatchers/dispatcher.js';
@@ -27,6 +28,10 @@ var gameStore = assign( {}, EventEmitter.prototype, {
     },
     _setLocations: function(){
         _locations = sample( locations, 5 );
+        _locations = _locations.map( location => {
+            location.uuid = uuid.v4();
+            return location;
+        });
     },
     _setDistances: function(){
         _locations = _locations.map( location => {

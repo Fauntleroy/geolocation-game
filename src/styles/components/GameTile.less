@@ -2,12 +2,22 @@
 @red: rgb( 225, 0, 0 );
 @blue: rgb( 0, 0, 225 );
 
+@keyframes appear {
+    from {
+        transform: scale( 0.25 );
+    }
+    to {
+        transform: scale( 1 );
+    }
+}
+
 .tile {
     position: relative;
     margin: 25px;
     cursor: pointer;
     text-shadow: rgba( 0, 0, 0, 0.15 ) 0 5px 5px;
     transition: transform 350ms @easeOutCubic, -webkkit-filter 750ms, opacity 750ms;
+    animation: appear 500ms @easeOutBack;
 
     &:hover,
     &.tile--selected,
@@ -19,8 +29,9 @@
 
 .game--show-answers {
     .tile:not(.tile--selected):not(.tile--closest) {
-        -webkit-filter: grayscale( 100% );
+        transform: scale( 1 );
         opacity: 0.65;
+        -webkit-filter: grayscale( 100% );
     }
 }
 
@@ -67,4 +78,12 @@
 
 .tile__distance {
     font-weight: normal;
+}
+
+.tile__play-again {
+    display: none;
+}
+
+.tile--selected .tile__play-again {
+    display: inline-block;
 }

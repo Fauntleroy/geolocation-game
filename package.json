@@ -13,6 +13,7 @@
     "keymirror": "^0.1.1",
     "lessify": "^1.0.1",
     "lodash": "^3.10.1",
+    "node-uuid": "^1.4.3",
     "react": "^0.13.3",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.1"
