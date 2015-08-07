@@ -43,6 +43,7 @@ var Game = React.createClass({
         var tiles_jsx = locations.map( ( location, index ) => {
             return <GameTile {...location}
                 onClick={this._onTileClick}
+                onPlayAgainClick={this._onPlayAgainClick}
                 index={index}
                 selected={index === selected_index}
                 closest={index === closest_index}
@@ -67,6 +68,9 @@ var Game = React.createClass({
     },
     _onTileClick: function( event, index ){
         gameActions.selectLocation( index );
+    },
+    _onPlayAgainClick: function(){
+        gameActions.reset();
     }
 });
 

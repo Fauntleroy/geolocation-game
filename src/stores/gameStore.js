@@ -40,6 +40,11 @@ var gameStore = assign( {}, EventEmitter.prototype, {
             return location.distance;
         })[0];
         _closest_location_index = _locations.indexOf( _closest_location );
+    },
+    _reset: function(){
+        _selected_location_index = null;
+        _closest_location_index = null;
+        gameStore._setLocations();
     }
 });
 
@@ -53,6 +58,9 @@ gameStore.dispatchToken = dispatcher.register( function( action ){
             gameStore._setDistances();
             gameStore._setClosestLocation();
             _selected_location_index = action.location_index;
+        break;
+        case constants.GAME_RESET:
+            gameStore._reset();
         break;
     }
     gameStore.emit('change');

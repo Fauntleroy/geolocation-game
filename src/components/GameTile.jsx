@@ -15,12 +15,16 @@ var GameTile = React.createClass({
                 <div className="tile__details">
                     <h2 className="tile__name">{this.props.name}</h2>
                     <h3 className="tile__distance">{distance}</h3>
+                    <button className="tile__play-again" onClick={this._onPlayAgainClick}>Play Again!</button>
                 </div>
             </li>
         );
     },
     _onClick: function( event ){
         this.props.onClick( event, this.props.index );
+    },
+    _onPlayAgainClick: function( event ){
+        this.props.onPlayAgainClick( event );
     }
 });
 
