@@ -2,7 +2,6 @@ import './index.less';
 
 import React from 'react';
 import cx from 'classnames';
-import distance from './utils/distance.js';
 
 import gameStore from './stores/gameStore.js';
 
@@ -49,7 +48,8 @@ var Game = React.createClass({
         var locations = this.state.locations;
         var game_classes = cx({
             game: true,
-            'game--show-answers': this.state.answered
+            'game--show-answers': this.state.answered,
+            'game--loading-user-location': !this.state.user_location
         });
         var tiles_jsx = locations.map( location => {
             return <GameTile {...location} onClick={this._onTileClick} />;
@@ -59,6 +59,9 @@ var Game = React.createClass({
                 <ul className="tiles">
                     {tiles_jsx}
                 </ul>
+                <div className="loading">
+                    Getting your location...
+                </div>
             </div>
         );
     },
@@ -67,6 +70,7 @@ var Game = React.createClass({
     },
     _onTileClick: function( event, coords ){
         gameStore.set( 'answered', true );
+        gameStore.setDistances();
     }
 });
 

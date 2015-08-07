@@ -1,7 +1,7 @@
 // Adapted from http://www.movable-type.co.uk/scripts/latlong.html
 // Calculate the distance between two points using the "Haversine" formula
 
-const EARTH_RADIUS = 6371000; // radius of Earth (meters)
+const EARTH_RADIUS = 3959; // average radius of Earth (miles)
 
 var toRadians = function( degrees ) {
     return degrees * Math.PI / 180;

@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 
 import { assign, sample } from 'lodash';
 
+import distance from '../utils/distance.js';
 import locations from '../locations.js';
 
 var data = {
@@ -23,6 +24,15 @@ var gameStore = assign( {}, EventEmitter.prototype, {
     },
     setLocations: function(){
         gameStore.set( 'locations', sample( locations, 5 ) );
+        gameStore.emit('change');
+    },
+    setDistances: function(){
+        var locations_with_distances = data.locations.map( location => {
+            location.distance = distance( data.user_location.lat, data.user_location.lon, location.coords.lat, location.coords.lon );
+            return location;
+        });
+        gameStore.set( 'locations', locations_with_distances );
+        gameStore.emit('change');
     }
 });
 
