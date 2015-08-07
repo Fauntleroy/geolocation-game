@@ -16,22 +16,27 @@
     margin: 25px;
     cursor: pointer;
     text-shadow: rgba( 0, 0, 0, 0.15 ) 0 5px 5px;
-    transition: transform 350ms @easeOutCubic, -webkkit-filter 750ms, opacity 750ms;
+    transition: transform 350ms @easeOutCubic, -webkkit-filter 750ms, filter 750ms, opacity 750ms;
+    -webkit-transition: -webkit-transform 350ms @easeOutCubic, -webkkit-filter 750ms, opacity 750ms;
     animation: appear 500ms @easeOutBack;
 
     &:hover,
     &.tile--selected,
     &.tile--closest {
         transform: scale( 1.05 );
+        -webkit-transform: scale( 1.05 );
         transition: transform 120ms @easeOutCubic;
+        -webkit-transition: -webkit-transform 120ms @easeOutCubic;
     }
 }
 
 .game--show-answers {
     .tile:not(.tile--selected):not(.tile--closest) {
         transform: scale( 1 );
+        -webkit-transform: scale( 1 );
         opacity: 0.65;
         -webkit-filter: grayscale( 100% );
+        filter: grayscale( 100% );
     }
 }
 
@@ -70,9 +75,14 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 5;
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-justify-content: center;
     justify-content: center;
+    -webkit-flex-direction: column;
     flex-direction: column;
 }
 

@@ -6,21 +6,23 @@ var userLocation = {
         dispatcher.handleAction({
             type: constants.USER_LOCATION_REQUEST
         });
-        navigator.geolocation.getCurrentPosition(function( position ) {
+        setTimeout(function(){
+            navigator.geolocation.getCurrentPosition(function( position ) {
             var user_location = {
-                lat: position.coords.latitude,
-                lon: position.coords.longitude
-            };
-            dispatcher.handleAction({
-                type: constants.USER_LOCATION_RESPONSE,
-                location: user_location
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                };
+                dispatcher.handleAction({
+                    type: constants.USER_LOCATION_RESPONSE,
+                    location: user_location
+                });
+            }, function( error ){
+                dispatcher.handleAction({
+                    type: constants.USER_LOCATION_ERROR,
+                    error: error
+                });
             });
-        }, function( error ){
-            dispatcher.handleAction({
-                type: constants.USER_LOCATION_ERROR,
-                error: error
-            });
-        });
+        }, 0);
     }
 };
 
