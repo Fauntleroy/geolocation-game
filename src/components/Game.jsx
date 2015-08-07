@@ -50,9 +50,12 @@ var Game = React.createClass({
         });
         return (
             <div className={game_classes}>
-                <ul className="tiles">
-                    {tiles_jsx}
-                </ul>
+                <div className="selector">
+                    <p>Choose the picture of the national park that is closest to you</p>
+                    <ul className="tiles">
+                        {tiles_jsx}
+                    </ul>
+                </div>
                 <div className="loading">
                     Getting your location...
                 </div>
