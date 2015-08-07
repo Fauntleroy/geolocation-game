@@ -11,7 +11,8 @@ var _getGameState = function(){
     return {
         locations: gameStore.getLocations(),
         user_location: gameStore.getUserLocation(),
-        selected_location_index: gameStore.getSelectedLocationIndex() 
+        selected_location_index: gameStore.getSelectedLocationIndex(),
+        closest_location_index: gameStore.getClosestLocationIndex()
     }
 };
 
@@ -28,13 +29,24 @@ var Game = React.createClass({
     },
     render: function(){
         var locations = this.state.locations;
+        var selected_index = this.state.selected_location_index;
+        var closest_index = this.state.closest_location_index;
+        var correct = ( selected_index === closest_index ) && typeof selected_index === 'number' && typeof closest_index === 'number';
+        var wrong = !( selected_index === closest_index ) && typeof selected_index === 'number' && typeof closest_index === 'number';
         var game_classes = cx({
             game: true,
-            'game--show-answers': !!this.state.selected_location_index,
-            'game--loading-user-location': !this.state.user_location
+            'game--show-answers': typeof this.state.selected_location_index === 'number',
+            'game--loading-user-location': !this.state.user_location,
+            'game--wrong':  wrong,
+            'game--correct': correct
         });
         var tiles_jsx = locations.map( ( location, index ) => {
-            return <GameTile {...location} onClick={this._onTileClick} index={index} />;
+            return <GameTile {...location}
+                onClick={this._onTileClick}
+                index={index}
+                selected={index === selected_index}
+                closest={index === closest_index}
+            />;
         });
         return (
             <div className={game_classes}>

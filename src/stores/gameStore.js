@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-import { assign, sample } from 'lodash';
+import { assign, sample, sortBy } from 'lodash';
 
 import constants from '../constants/constants.js';
 import dispatcher from '../dispatchers/dispatcher.js';
@@ -10,6 +10,7 @@ import locations from '../locations.js';
 var _locations = [];
 var _user_location;
 var _selected_location_index;
+var _closest_location_index;
 
 var gameStore = assign( {}, EventEmitter.prototype, {
     getLocations: function(){
@@ -21,6 +22,9 @@ var gameStore = assign( {}, EventEmitter.prototype, {
     getSelectedLocationIndex: function(){
         return _selected_location_index;
     },
+    getClosestLocationIndex: function(){
+        return _closest_location_index;
+    },
     _setLocations: function(){
         _locations = sample( locations, 5 );
     },
@@ -30,6 +34,12 @@ var gameStore = assign( {}, EventEmitter.prototype, {
                 location.coords.lat, location.coords.lon );
             return location;
         });
+    },
+    _setClosestLocation: function(){
+        var _closest_location = sortBy( _locations, function( location ){
+            return location.distance;
+        })[0];
+        _closest_location_index = _locations.indexOf( _closest_location );
     }
 });
 
@@ -41,6 +51,7 @@ gameStore.dispatchToken = dispatcher.register( function( action ){
         break;
         case constants.SELECT_LOCATION:
             gameStore._setDistances();
+            gameStore._setClosestLocation();
             _selected_location_index = action.location_index;
         break;
     }

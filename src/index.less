@@ -2,10 +2,6 @@
     display: none;
 }
 
-.tile {
-    float: left;
-}
-
 .game {
     .tile__details {
         display: none;
@@ -26,4 +22,20 @@
     .loading {
         display: block;
     }
+}
+
+.tile {
+    float: left;
+}
+
+.tile--selected {
+    outline: red 5px solid;
+}
+
+.tile--closest {
+    outline: yellow 5px solid;
+}
+
+.tile--selected.tile--closest {
+    outline: green 5px solid;
 }
