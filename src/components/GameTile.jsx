@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 var GameTile = React.createClass({
     render: function(){
+        var distance = Math.round( this.props.distance ) +' miles away';
         var tile_classes = cx({
             tile: true,
             'tile--closest': this.props.closest,
@@ -10,10 +11,10 @@ var GameTile = React.createClass({
         });
         return (
             <li className={tile_classes}>
-                <img src={this.props.image} onClick={this._onClick} />
+                <img className="tile__image" src={this.props.image} onClick={this._onClick} />
                 <div className="tile__details">
-                    {this.props.name}<br />
-                    {this.props.distance}
+                    <h2 className="tile__name">{this.props.name}</h2>
+                    <h3 className="tile__distance">{distance}</h3>
                 </div>
             </li>
         );

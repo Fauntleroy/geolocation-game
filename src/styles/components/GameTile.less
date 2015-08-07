@@ -1,0 +1,70 @@
+@green: rgb( 0, 225, 0 );
+@red: rgb( 225, 0, 0 );
+@blue: rgb( 0, 0, 225 );
+
+.tile {
+    position: relative;
+    margin: 25px;
+    cursor: pointer;
+    text-shadow: rgba( 0, 0, 0, 0.15 ) 0 5px 5px;
+    transition: transform 350ms @easeOutCubic, -webkkit-filter 750ms, opacity 750ms;
+
+    &:hover,
+    &.tile--selected,
+    &.tile--closest {
+        transform: scale( 1.05 );
+        transition: transform 120ms @easeOutCubic;
+    }
+}
+
+.game--show-answers {
+    .tile:not(.tile--selected):not(.tile--closest) {
+        -webkit-filter: grayscale( 100% );
+        opacity: 0.65;
+    }
+}
+
+.tile--selected,
+.tile--closest {
+    outline: currentColor 5px solid;
+    color: white;
+}
+
+.tile--selected {
+    outline-color: @red;
+
+    .tile__details {
+        background: fade( @red, 50% );
+    }
+}
+
+.tile--closest {
+    outline-color: @green;
+
+    .tile__details {
+        background: fade( @green, 50% );
+    }
+}
+
+.tile__image {
+    display: block;
+    width: 400px;
+    height: 400px;
+    background: rgb( 150, 150, 150 );
+}
+
+.tile__details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tile__distance {
+    font-weight: normal;
+}
