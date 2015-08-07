@@ -30,3 +30,12 @@ If you'd like to run the compiled application locally, you'll need to run a webs
 ```
 jekyll serve --watch --source dist
 ```
+
+## Todo
+
+- Clean up browser-specific flexbox CSS with mixins
+- Add timer and score tracking
+- Eliminate images from the pool as they're used in questions (don't repeat images)
+- Create an end state and score reporting
+- Handle cases where users do not accept the Geolocation request
+- Various interface tweaks
