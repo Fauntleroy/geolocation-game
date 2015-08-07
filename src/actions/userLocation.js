@@ -6,6 +6,7 @@ var userLocation = {
         dispatcher.handleAction({
             type: constants.USER_LOCATION_REQUEST
         });
+        // Need a setTimeout to prevent an infinite loop in Safari
         setTimeout(function(){
             navigator.geolocation.getCurrentPosition(function( position ) {
             var user_location = {
