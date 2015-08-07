@@ -2,40 +2,49 @@ import { EventEmitter } from 'events';
 
 import { assign, sample } from 'lodash';
 
+import constants from '../constants/constants.js';
+import dispatcher from '../dispatchers/dispatcher.js';
 import distance from '../utils/distance.js';
 import locations from '../locations.js';
 
-var data = {
-    locations: [],
-    user_location: null,
-    answered: false
-};
+var _locations = [];
+var _user_location;
+var _selected_location_index;
 
 var gameStore = assign( {}, EventEmitter.prototype, {
-    get: function( key ){
-        return data[key];
+    getLocations: function(){
+        return _locations;
     },
-    getAll: function(){
-        return data;
+    getUserLocation: function(){
+        return _user_location;
     },
-    set: function( key, value ){
-        data[key] = value;
-        gameStore.emit('change');
+    getSelectedLocationIndex: function(){
+        return _selected_location_index;
     },
-    setLocations: function(){
-        gameStore.set( 'locations', sample( locations, 5 ) );
-        gameStore.emit('change');
+    _setLocations: function(){
+        _locations = sample( locations, 5 );
     },
-    setDistances: function(){
-        var locations_with_distances = data.locations.map( location => {
-            location.distance = distance( data.user_location.lat, data.user_location.lon, location.coords.lat, location.coords.lon );
+    _setDistances: function(){
+        _locations = _locations.map( location => {
+            location.distance = distance( _user_location.lat, _user_location.lon,
+                location.coords.lat, location.coords.lon );
             return location;
         });
-        gameStore.set( 'locations', locations_with_distances );
-        gameStore.emit('change');
     }
 });
 
-gameStore.setLocations();
+gameStore.dispatchToken = dispatcher.register( function( action ){
+    switch( action.type ){
+        case constants.USER_LOCATION_RESPONSE:
+            gameStore._setLocations();
+            _user_location = action.location;
+        break;
+        case constants.SELECT_LOCATION:
+            gameStore._setDistances();
+            _selected_location_index = action.location_index;
+        break;
+    }
+    gameStore.emit('change');
+});
 
 export default gameStore;

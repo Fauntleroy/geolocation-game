@@ -3,15 +3,9 @@ import './index.less';
 import React from 'react';
 import cx from 'classnames';
 
+import userLocationActions from './actions/userLocation.js';
+import gameActions from './actions/game.js';
 import gameStore from './stores/gameStore.js';
-
-navigator.geolocation.getCurrentPosition(function( position ) {
-    var user_location = {
-        lat: position.coords.latitude,
-        lon: position.coords.longitude
-    };
-    gameStore.set( 'user_location', user_location );
-});
 
 var GameTile = React.createClass({
     render: function(){
@@ -26,12 +20,16 @@ var GameTile = React.createClass({
         );
     },
     _onClick: function( event ){
-        this.props.onClick( event, this.props.coords );
+        this.props.onClick( event, this.props.index );
     }
 });
 
 var _getGameState = function(){
-    return gameStore.getAll();
+    return {
+        locations: gameStore.getLocations(),
+        user_location: gameStore.getUserLocation(),
+        selected_location_index: gameStore.getSelectedLocationIndex() 
+    }
 };
 
 var Game = React.createClass({
@@ -39,6 +37,7 @@ var Game = React.createClass({
         return _getGameState();
     },
     componentWillMount: function(){
+        userLocationActions.getLocation();
         gameStore.on( 'change', this._onChange );
     },
     componentWillUnmount: function () {
@@ -48,11 +47,11 @@ var Game = React.createClass({
         var locations = this.state.locations;
         var game_classes = cx({
             game: true,
-            'game--show-answers': this.state.answered,
+            'game--show-answers': !!this.state.selected_location_index,
             'game--loading-user-location': !this.state.user_location
         });
-        var tiles_jsx = locations.map( location => {
-            return <GameTile {...location} onClick={this._onTileClick} />;
+        var tiles_jsx = locations.map( ( location, index ) => {
+            return <GameTile {...location} onClick={this._onTileClick} index={index} />;
         });
         return (
             <div className={game_classes}>
@@ -68,9 +67,8 @@ var Game = React.createClass({
     _onChange: function(){
         this.setState( _getGameState() );
     },
-    _onTileClick: function( event, coords ){
-        gameStore.set( 'answered', true );
-        gameStore.setDistances();
+    _onTileClick: function( event, index ){
+        gameActions.selectLocation( index );
     }
 });
 
