@@ -1,7 +1,7 @@
 # Geolocation Game
 A simple game using the geolocation API. This game uses satellite photos of US National Parks as its source of data.
 
-Live demo: http://fauntleroy.github.io/geolocation-game/
+Live demo: https://fauntleroy.github.io/geolocation-game/
 
 ## Developing
 
